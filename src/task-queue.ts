@@ -17,12 +17,12 @@ class TaskQueue {
 
   public async addTask(func: () => any, priority: number = 0) {
     const id = crypto.randomUUID();
-    const task: Task = {id, func, priority};
+    const task: Task = { id, func, priority };
 
     if (this.cancelTasks.has(id)) {
       throw new Error(`Task with id ${id} has been cancelled.`);
     }
-    
+
     this.queue.push(task);
     this.queue.sort((a, b) => b.priority - a.priority);
 
@@ -54,7 +54,9 @@ class TaskQueue {
         try {
           await nextTask.func();
         } catch (error) {
-          console.error(`Task with id ${nextTask.id} failed with error: ${error}`);
+          console.error(
+            `Task with id ${nextTask.id} failed with error: ${error}`
+          );
         }
       }
     }
